@@ -4,64 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSH Options Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .container img {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <form id="tshForm">
-        <label for="tsh">Seleccione TSH:</label>
-        <select id="tsh" name="tsh" onchange="handleTSHChange()">
-            <option value="">Seleccione una opción</option>
-            <option value="1">Entre 0.1 y 2.5 mU/L</option>
-            <option value="2">Entre 2.5 y LSIR</option>
-            <option value="3">Entre LSIR y 10</option>
-            <option value="4">> 10</option>
-        </select>
-        <br><br>
-        <div id="tipoContainer" style="display: none;">
-            <label for="tipo">Seleccione Tipo:</label>
-            <select id="tipo" name="tipo" onchange="handleTipoChange()">
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Logotipo_Urbaser.jpg" alt="Urbaser Logo">
+        <form id="tshForm">
+            <label for="tsh">Seleccione TSH:</label>
+            <select id="tsh" name="tsh">
                 <option value="">Seleccione una opción</option>
-                <option value="positivo">Positivo</option>
-                <option value="negativo">Negativo</option>
+                <option value="1">Entre 0.1 y 2.5 mU/L</option>
+                <option value="2">Entre 2.5 y LSIR</option>
+                <option value="3">Entre LSIR y 10</option>
+                <option value="4">> 10</option>
             </select>
-        </div>
-        <br><br>
-        <div id="result" style="font-weight: bold;"></div>
-    </form>
+            <br><br>
+            <div id="tipoContainer" style="display: none;">
+                <label for="tipo">Seleccione Tipo:</label>
+                <select id="tipo" name="tipo">
+                    <option value="">Seleccione una opción</option>
+                    <option value="positivo">Positivo</option>
+                    <option value="negativo">Negativo</option>
+                </select>
+            </div>
+            <br><br>
+            <button type="button" onclick="calculateResult()">Calcular</button>
+        </form>
+        <table id="resultTable" style="display: none;">
+            <tr>
+                <th>Resultado</th>
+            </tr>
+            <tr>
+                <td id="result"></td>
+            </tr>
+        </table>
+    </div>
 
     <script>
-        function handleTSHChange() {
+        document.getElementById('tsh').addEventListener('change', function() {
             const tshValue = document.getElementById('tsh').value;
             const tipoContainer = document.getElementById('tipoContainer');
-            const result = document.getElementById('result');
 
-            tipoContainer.style.display = 'none';
-            result.textContent = '';
+            tipoContainer.style.display = (tshValue === '2' || tshValue === '3') ? 'block' : 'none';
+        });
 
-            if (tshValue === '1') {
-                result.textContent = 'Nada';
-            } else if (tshValue === '4') {
-                result.textContent = 'Nada 2';
-            } else if (tshValue === '2' || tshValue === '3') {
-                tipoContainer.style.display = 'block';
-            }
-        }
-
-        function handleTipoChange() {
+        function calculateResult() {
             const tshValue = document.getElementById('tsh').value;
             const tipoValue = document.getElementById('tipo').value;
             const result = document.getElementById('result');
+            const resultTable = document.getElementById('resultTable');
 
-            result.textContent = '';
+            let resultText = '';
 
-            if (tshValue === '2' && tipoValue === 'positivo') {
-                result.textContent = 'CT4';
-            } else if (tshValue === '2' && tipoValue === 'negativo') {
-                result.textContent = 'No tratar';
-            } else if (tshValue === '3' && tipoValue === 'positivo') {
-                result.textContent = 'CT4 indique LT4';
-            } else if (tshValue === '3' && tipoValue === 'negativo') {
-                result.textContent = 'Considerar Tratar';
+            if (tshValue === '1') {
+                resultText = 'Nada';
+            } else if (tshValue === '4') {
+                resultText = 'Nada 2';
+            } else if (tshValue === '2') {
+                resultText = tipoValue === 'positivo' ? 'CT4' : 'No tratar';
+            } else if (tshValue === '3') {
+                resultText = tipoValue === 'positivo' ? 'CT4 indique LT4' : 'Considerar Tratar';
             }
+
+            result.textContent = resultText;
+            resultTable.style.display = 'table';
         }
     </script>
 </body>
