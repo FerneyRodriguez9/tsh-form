@@ -122,11 +122,11 @@
             if (tshValue === '1') {
                 resultText = 'Nada';
             } else if (tshValue === '4') {
-                resultText = 'Nada 2';
+                resultText = 'Iniciar Tratamiento con LT4';
             } else if (tshValue === '2') {
-                resultText = tipoValue === 'positivo' ? 'LT4' : 'No tratar';
+                resultText = tipoValue === 'positivo' ? 'Considerar Iniciar Tratamiento con LT4' : 'No tratar';
             } else if (tshValue === '3') {
-                resultText = tipoValue === 'positivo' ? 'LT4 indique LT4' : 'Considerar Tratar';
+                resultText = tipoValue === 'positivo' ? 'Iniciar Tratamiento con LT4' : 'Considerar Tratar';
             }
 
             result.textContent = resultText;
