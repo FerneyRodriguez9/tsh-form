@@ -61,15 +61,23 @@
         button {
             padding: 13px 26px; /* Increased by 30% */
             margin-top: 26px; /* Increased by 30% */
-            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 15.6px; /* Increased by 30% */
         }
-        button:hover {
+        button.calculate {
+            background-color: #4CAF50;
+        }
+        button.calculate:hover {
             background-color: #45a049;
+        }
+        button.back {
+            background-color: #f44336;
+        }
+        button.back:hover {
+            background-color: #e53935;
         }
     </style>
 </head>
@@ -98,7 +106,8 @@
                 </select>
             </div>
             <br><br>
-            <button type="button" onclick="calculateResult()">Calcular</button>
+            <button type="button" class="calculate" onclick="calculateResult()">Calcular</button>
+            <button type="button" class="back" onclick="location.href='index.html'">Atrás</button>
         </form>
         <table id="resultTable" style="display: none;">
             <tr>
