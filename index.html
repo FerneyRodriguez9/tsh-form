@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSH Options Form</title>
+    <title>Indicaciones para la Toma de TSH</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,37 +20,15 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
             width: 300px;
         }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        h1 {
+            font-size: 24px;
             margin-bottom: 20px;
         }
-        .header img {
-            width: 50px;
-            margin-right: 10px;
-        }
-        .header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
-        table {
+        img {
             width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
+            border-radius: 10px;
         }
         button {
             padding: 10px 20px;
@@ -68,70 +46,9 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="https://www.fucsalud.edu.co/sites/default/files/logo.png" alt="FUCS">
-            <h1>Hipotiroidismo Gestacional</h1>
-            <img src="http://imgfz.com/i/t8jG9Ex.png" alt="FUCS">            
-        </div>
-            <form id="tshForm">
-            <label for="tsh">Seleccione TSH:</label>
-            <select id="tsh" name="tsh">
-                <option value="">Seleccione una opción</option>
-                <option value="2">Entre 2.5 y 4.0 mU/l</option>
-                <option value="3">Entre 4.0 y 10 mU/l</option>
-                <option value="4">Mayor 10 mU/l</option>
-            </select>
-            <br><br>
-            <div id="tipoContainer" style="display: none;">
-                <label for="tipo">Seleccione Anticuerpos anti TPO:</label>
-                <select id="tipo" name="tipo">
-                    <option value="">Seleccione una opción</option>
-                    <option value="positivo">Positivo</option>
-                    <option value="negativo">Negativo</option>
-                </select>
-            </div>
-            <br><br>
-            <button type="button" onclick="calculateResult()">Calcular</button>
-        </form>
-        <table id="resultTable" style="display: none;">
-            <tr>
-                <th>Resultado</th>
-            </tr>
-            <tr>
-                <td id="result"></td>
-            </tr>
-        </table>
+        <h1>Indicaciones para la Toma de TSH</h1>
+        <img src="http://imgfz.com/i/mq3e7JD.jpeg" alt="Indicaciones TSH">
+        <button onclick="location.href='tsh_form.html'">Siguiente</button>
     </div>
-
-    <script>
-        document.getElementById('tsh').addEventListener('change', function() {
-            const tshValue = document.getElementById('tsh').value;
-            const tipoContainer = document.getElementById('tipoContainer');
-
-            tipoContainer.style.display = (tshValue === '2') ? 'block' : 'none';
-        });
-
-        function calculateResult() {
-            const tshValue = document.getElementById('tsh').value;
-            const tipoValue = document.getElementById('tipo').value;
-            const result = document.getElementById('result');
-            const resultTable = document.getElementById('resultTable');
-
-            let resultText = '';
-
-            if (tshValue === '1') {
-                resultText = 'Nada';
-            } else if (tshValue === '4') {
-                resultText = 'Iniciar Tratamiento con LT4';
-            } else if (tshValue === '2') {
-                resultText = tipoValue === 'positivo' ? 'Considerar Iniciar Tratamiento con LT4' : 'No tratar';
-            } else if (tshValue === '3') {
-                resultText = 'Iniciar Tratamiento con LT4';
-            }
-
-            result.textContent = resultText;
-            resultTable.style.display = 'table';
-        }
-    </script>
 </body>
 </html>
