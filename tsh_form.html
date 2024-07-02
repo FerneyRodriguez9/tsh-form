@@ -17,24 +17,23 @@
         .container {
             text-align: center;
             background-color: #fff;
-            padding: 26px; /* Increased by 30% */
+            padding: 26px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            width: 390px; /* Increased by 30% */
+            width: 390px;
         }
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 26px; /* Increased by 30% */
+            margin-bottom: 26px;
         }
         .header img {
-            width: 65px; /* Increased by 30% */
-            margin-right: 13px; /* Increased by 30% */
+            width: 65px;
+            margin-right: 13px;
         }
         .header h1 {
-            font-size: 31.2px; /* Increased by 30% */
+            font-size: 31.2px;
             margin: 0;
         }
         label {
@@ -45,27 +44,27 @@
         }
         table {
             width: 100%;
-            margin-top: 26px; /* Increased by 30% */
+            margin-top: 26px;
             border-collapse: collapse;
         }
         table, th, td {
             border: 1px solid #ddd;
         }
         th, td {
-            padding: 13px; /* Increased by 30% */
+            padding: 13px;
             text-align: left;
         }
         th {
             background-color: #f2f2f2;
         }
         button {
-            padding: 13px 26px; /* Increased by 30% */
-            margin-top: 26px; /* Increased by 30% */
+            padding: 13px 26px;
+            margin-top: 26px;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 15.6px; /* Increased by 30% */
+            font-size: 15.6px;
         }
         button.calculate {
             background-color: #4CAF50;
@@ -79,6 +78,11 @@
         button.back:hover {
             background-color: #e53935;
         }
+        #observacion {
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -90,15 +94,18 @@
         </div>
         <form id="tshForm">
             <label for="tsh">Seleccione TSH:</label>
-            <select id="tsh" name="tsh">
+            <select id="tsh" name="tsh" onchange="updateObservation()">
                 <option value="">Seleccione una opción</option>
-                <option value="2">Entre 2.5 y 4.0 mU/l</option>
-                <option value="3">Entre 4.0 y 10 mU/l</option>
-                <option value="4">Mayor 10 mU/l</option>
+                <option value="tsh1">TSH < 0.1 mU/l</option>
+                <option value="tsh2">TSH 0.1 - 2.5 mU/l</option>
+                <option value="tsh3">TSH 2.5 - 10 mU/l</option>
+                <option value="tsh4">TSH > 10 mU/l</option>
             </select>
             <br><br>
+            <div id="observacion"></div>
+            <br><br>
             <div id="tipoContainer" style="display: none;">
-                <label for="tipo">Seleccione Anticuerpos anti TPO:</label>
+                <label for="tipo">Seleccione Anticuerpos anti TPO (Anticuerpos Anti Peroxidasa):</label>
                 <select id="tipo" name="tipo">
                     <option value="">Seleccione una opción</option>
                     <option value="positivo">Positivo</option>
@@ -120,12 +127,27 @@
     </div>
 
     <script>
-        document.getElementById('tsh').addEventListener('change', function() {
+        function updateObservation() {
             const tshValue = document.getElementById('tsh').value;
+            const observacion = document.getElementById('observacion');
             const tipoContainer = document.getElementById('tipoContainer');
 
-            tipoContainer.style.display = (tshValue === '2') ? 'block' : 'none';
-        });
+            let observacionText = '';
+            tipoContainer.style.display = 'none';
+
+            if (tshValue === 'tsh1') {
+                observacionText = '';
+            } else if (tshValue === 'tsh2') {
+                observacionText = '';
+            } else if (tshValue === 'tsh3') {
+                observacionText = 'Toma de anticuerpos anti TPO (Anticuerpos Anti Peroxidasa)';
+                tipoContainer.style.display = 'block';
+            } else if (tshValue === 'tsh4') {
+                observacionText = '';
+            }
+
+            observacion.textContent = observacionText;
+        }
 
         function calculateResult() {
             const tshValue = document.getElementById('tsh').value;
@@ -135,12 +157,18 @@
 
             let resultText = '';
 
-            if (tshValue === '4') {
-                resultText = 'Iniciar Tratamiento con LT4';
-            } else if (tshValue === '2') {
-                resultText = tipoValue === 'positivo' ? 'Considerar Iniciar Tratamiento con LT4' : 'No tratar';
-            } else if (tshValue === '3') {
-                resultText = 'Iniciar Tratamiento con LT4';
+            if (tshValue === 'tsh4') {
+                resultText = 'Inicie levotiroxina a dosis entre 25-50 mcg cada día. \nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
+            } else if (tshValue === 'tsh3') {
+                if (tipoValue === 'positivo') {
+                    resultText = 'TSH entre 2.5 - 4 mU/l -> Considerar iniciar tratamiento.\nTSH entre 4 - 10 mU/l -> Tratar con levotiroxina.\nRecomendaciones:\nInicie levotiroxina a dosis entre 25-50 mcg cada día.\nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l.\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
+                } else if (tipoValue === 'negativo') {
+                    resultText = 'TSH entre 2.5 - 4 mU/l -> No tratar.\nTSH entre 4 - 10 mU/l -> Considerar tratamiento con levotiroxina.\nRecomendaciones:\nInicie levotiroxina a dosis entre 25-50 mcg cada día.\nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l.\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
+                }
+            } else if (tshValue === 'tsh2') {
+                resultText = 'No realizar exámenes complementarios.';
+            } else if (tshValue === 'tsh1') {
+                resultText = 'Realizar toma de T4 libre y T3 totales para determinar diagnóstico de hipertiroidismo gestacional. Diríjase a la página de la ATA (AMERICAN THYROID ASSOCIATION) para más información: https://eguideline.guidelinecentral.com/u/751899-hyperthyroidism/21';
             }
 
             result.textContent = resultText;
