@@ -149,31 +149,59 @@
             observacion.textContent = observacionText;
         }
 
-        function calculateResult() {
-            const tshValue = document.getElementById('tsh').value;
-            const tipoValue = document.getElementById('tipo').value;
-            const result = document.getElementById('result');
-            const resultTable = document.getElementById('resultTable');
+function calculateResult() {
+    const tshValue = document.getElementById('tsh').value;
+    const tipoValue = document.getElementById('tipo').value;
+    const result = document.getElementById('result');
+    const resultTable = document.getElementById('resultTable');
 
-            let resultText = '';
+    let resultText = '';
 
-            if (tshValue === 'tsh4') {
-                resultText = 'Inicie levotiroxina a dosis entre 25-50 mcg cada día. \nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
-            } else if (tshValue === 'tsh3') {
-                if (tipoValue === 'positivo') {
-                    resultText = 'TSH entre 2.5 - 4 mU/l -> Considerar iniciar tratamiento.\nTSH entre 4 - 10 mU/l -> Tratar con levotiroxina.\nRecomendaciones:\nInicie levotiroxina a dosis entre 25-50 mcg cada día.\nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l.\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
-                } else if (tipoValue === 'negativo') {
-                    resultText = 'TSH entre 2.5 - 4 mU/l -> No tratar.\nTSH entre 4 - 10 mU/l -> Considerar tratamiento con levotiroxina.\nRecomendaciones:\nInicie levotiroxina a dosis entre 25-50 mcg cada día.\nInicie levotiroxina a 0.5 mcg/kg de peso.\nRecuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.\nLleve a metas la TSH entre 2.5 - 4 mU/l.\nSi la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.';
-                }
-            } else if (tshValue === 'tsh2') {
-                resultText = 'No realizar exámenes complementarios.';
-            } else if (tshValue === 'tsh1') {
-                resultText = 'Realizar toma de T4 libre y T3 totales para determinar diagnóstico de hipertiroidismo gestacional. Diríjase a la página de la ATA (AMERICAN THYROID ASSOCIATION) para más información: https://eguideline.guidelinecentral.com/u/751899-hyperthyroidism/21';
-            }
-
-            result.textContent = resultText;
-            resultTable.style.display = 'table';
+    if (tshValue === 'tsh4') {
+        resultText = '<ol>' +
+                     '<li>Inicie levotiroxina a dosis entre 25-50 mcg cada día.</li>' +
+                     '<li>Inicie levotiroxina a 0.5 mcg/kg de peso.</li>' +
+                     '<li>Recuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.</li>' +
+                     '<li>Lleve a metas la TSH entre 2.5 - 4 mU/l.</li>' +
+                     '<li>Si la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.</li>' +
+                     '</ol>';
+    } else if (tshValue === 'tsh3') {
+        if (tipoValue === 'positivo') {
+            resultText = '<ol>' +
+                         '<li>TSH entre 2.5 - 4 mU/l -> Considerar iniciar tratamiento.</li>' +
+                         '<li>TSH entre 4 - 10 mU/l -> Tratar con levotiroxina.</li>' +
+                         '<li>Inicie levotiroxina a dosis entre 25-50 mcg cada día.</li>' +
+                         '<li>Inicie levotiroxina a 0.5 mcg/kg de peso.</li>' +
+                         '<li>Recuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.</li>' +
+                         '<li>Lleve a metas la TSH entre 2.5 - 4 mU/l.</li>' +
+                         '<li>Si la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.</li>' +
+                         '</ol>';
+        } else if (tipoValue === 'negativo') {
+            resultText = '<ol>' +
+                         '<li>TSH entre 2.5 - 4 mU/l -> No tratar.</li>' +
+                         '<li>TSH entre 4 - 10 mU/l -> Considerar tratamiento con levotiroxina.</li>' +
+                         '<li>Inicie levotiroxina a dosis entre 25-50 mcg cada día.</li>' +
+                         '<li>Inicie levotiroxina a 0.5 mcg/kg de peso.</li>' +
+                         '<li>Recuerde tomar nuevamente una TSH de control a las 4-6 semanas de iniciado o ajustado el tratamiento.</li>' +
+                         '<li>Lleve a metas la TSH entre 2.5 - 4 mU/l.</li>' +
+                         '<li>Si la TSH aún se encuentra fuera de metas ajuste el 20% de la dosis diaria y vuelva a tomar un control en las 4-6 semanas siguientes.</li>' +
+                         '</ol>';
         }
+    } else if (tshValue === 'tsh2') {
+        resultText = 'No realizar exámenes complementarios.';
+    } else if (tshValue === 'tsh1') {
+        resultText = '<ol>' +
+                     '<li>Realizar toma de T4 libre y T3 totales para determinar diagnóstico de hipertiroidismo gestacional.</li>' +
+                     '<li>Diríjase a la página de la ATA (AMERICAN THYROID ASSOCIATION) para más información: ' +
+                     '<a href="https://eguideline.guidelinecentral.com/u/751899-hyperthyroidism/21" target="_blank">' +
+                     'https://eguideline.guidelinecentral.com/u/751899-hyperthyroidism/21</a></li>' +
+                     '</ol>';
+    }
+
+    // Usar innerHTML en lugar de textContent para interpretar las etiquetas HTML
+    result.innerHTML = resultText;
+    resultTable.style.display = 'table';
+}
     </script>
 </body>
 </html>
